@@ -8,11 +8,11 @@ This is a simple ATM Management System developed using C++.
 - Deposit money
 - Withdraw money
 - Console based system
-- GUI concept using wxWidgets
+- GUI concept using sfml
 
 ## Tools Used
 - C++
-- wxWidgets (concept)
+- sfml (concept)
 - Windows
 
 ## How to Run
