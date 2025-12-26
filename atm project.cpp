@@ -1,61 +1,108 @@
 #include <iostream>
 using namespace std;
 
-int main() {
-    int pin = 1234, enteredPin;
-    int choice;
-    float balance = 10000;
-    float amount;
+struct Account
+{
+    string name;
+    int pin;
+    int balance;
+};
 
-    cout << "----- Welcome to ATM -----"<<endl;
-    cout << "Enter your PIN: "<<endl;
-    cin >> enteredPin;
+int main()
+{
+    Account users[5] =
+    {
+        {"Ali", 1111, 50000},
+        {"Amna", 2222, 40000},
+        {"Hassan", 3333, 60000},
+        {"Sara", 4444, 35000},
+        {"Ayesha", 5555, 45000}
+    };
 
-    if (enteredPin == pin) {
-        do {
-            cout << "--- ATM Menu ---"<<endl;
-            cout << "1. Check Balance"<<endl;
-            cout << "2. Deposit Money"<<endl;
-            cout << "3. Withdraw Money"<<endl;
-            cout << "4. Exit"<<endl;
-            cout << "Choose option: "<<endl;
-            cin >> choice;
+    int enteredPin, attempts = 0;
+    int currentUser = -1;
+    while (attempts < 3)
+    {
+        cout << "Enter PIN: "<<endl;
+        cin >> enteredPin;
 
-            switch (choice) {
-                case 1:
-                    cout << "Your Balance is: " << balance << endl;
-                    break;
-
-                case 2:
-                    cout << "Enter amount to deposit: ";
-                    cin >> amount;
-                    balance += amount;
-                    cout << "Amount Deposited Successfully"<<endl;
-                    break;
-
-                case 3:
-                    cout << "Enter amount to withdraw: ";
-                    cin >> amount;
-                    if (amount <= balance) {
-                        balance -= amount;
-                        cout << "Please collect your cash"<<endl;
-                    } else {
-                        cout << "Insufficient Balance"<<endl;
-                    }
-                    break;
-
-                case 4:
-                    cout << "Thank you for using ATM"<<endl;
-                    break;
-
-                default:
-                    cout << "Invalid choice"<<endl;
+        for (int i = 0; i < 5; i++)
+        {
+            if (enteredPin == users[i].pin)
+            {
+                currentUser = i;
+                break;
             }
+        }
 
-        } while (choice != 4);
-    } else {
-        cout << "Wrong PIN. Access Denied!"<<endl;
+        if (currentUser != -1)
+            break;
+
+        attempts++;
+        cout << "Wrong PIN!"<<endl;
     }
+
+    if (currentUser == -1)
+    {
+        cout << "ACCOUNT LOCKED! Restart program."<<endl;
+        return 0;
+    }
+    cout << "Welcome, " << users[currentUser].name << "!"<<endl;
+
+    int choice, amount;
+
+    do
+    {
+        cout << "--- ATM MENU ---"<<endl;
+        cout << "1. Withdraw"<<endl;
+        cout << "2. Deposit"<<endl;
+        cout << "3. Check Balance"<<endl;
+        cout << "4. Logout"<<endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            cout << "Enter amount to withdraw: ";
+            cin >> amount;
+
+            if (amount > 0 && amount <= users[currentUser].balance)
+            {
+                users[currentUser].balance -= amount;
+                cout << "Withdraw successful!"<<endl;
+            }
+            else
+            {
+                cout << "Insufficient balance!"<<endl;
+            }
+            break;
+
+        case 2:
+            cout << "Enter amount to deposit: ";
+            cin >> amount;
+
+            if (amount > 0)
+            {
+                users[currentUser].balance += amount;
+                cout << "Deposit successful!"<<endl;
+            }
+            break;
+
+        case 3:
+            cout << "Current Balance: Rs "
+                 << users[currentUser].balance << endl;
+            break;
+
+        case 4:
+            cout << "Logged out successfully."<<endl;
+            break;
+
+        default:
+            cout << "Invalid choice!"<<endl;
+        }
+
+    } while (choice != 4);
 
     return 0;
 }
