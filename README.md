@@ -17,7 +17,7 @@ This is a simple ATM Management System developed using C++.
 
 ## How to Run
 1. Open project in any C++ compiler
-2. Compile and run `main.cpp`
+2. Compile and run `atm project.cpp`
 
 Created by
 Hassan Masood
